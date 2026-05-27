@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏢 Space Reservation System — Part C: BE Infra
 
 > **담당**: C (진딘동)
@@ -163,3 +164,6 @@ DEPLOY_SSH_KEY   - SSH 개인키
 ```bash
 ./mvnw test
 ```
+=======
+# main
+>>>>>>> ace4b51b7bdc2a67d7a54d79e053403b768b8aa1
