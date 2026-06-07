@@ -1,0 +1,45 @@
+### 1) 회원가입
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{ "username": "tran01", "password": "test1234", "name": "Tran", "email": "tran@knu.ac.kr", "affiliation": "컴퓨터학부" }
+
+### 2) 로그인 (accessToken 복사)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{ "username": "tran01", "password": "test1234" }
+
+### 3) 공간 목록 (공개)
+GET http://localhost:8080/api/rooms
+
+### 4) 공간 현황 (시설 + 점유 시간대)
+GET http://localhost:8080/api/rooms/1/availability
+
+### 5) 예약 (로그인 토큰 필요)
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+Authorization: Bearer <ACCESS_TOKEN>
+
+{ "roomId": 1, "startTime": "2026-06-10T10:00:00", "endTime": "2026-06-10T12:00:00" }
+
+### 6) 내 예약
+GET http://localhost:8080/api/reservations/me
+Authorization: Bearer <ACCESS_TOKEN>
+
+### 7) 관리자 로그인 (admin / admin1234)
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "admin1234" }
+
+### 8) 관리자: 공간 생성
+POST http://localhost:8080/api/admin/rooms
+Content-Type: application/json
+Authorization: Bearer <ADMIN_TOKEN>
+
+{ "name": "기숙사 독서실", "location": "기숙사 B동", "capacity": 1, "active": true, "facilityIds": [1] }
+
+### 9) 관리자: Google Drive 백업
+POST http://localhost:8080/api/admin/backup
+Authorization: Bearer <ADMIN_TOKEN>

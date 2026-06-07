@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: unispace
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:unispace}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME:unispace}
+    password: ${DB_PASSWORD:unispace1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    show-sql: false
+
+# JWT 설정 (Part C - 인증/보안)
+jwt:
+  # HS256 키는 최소 256bit(32byte) 이상이어야 함. 운영 시 반드시 환경변수로 교체.
+  secret: ${JWT_SECRET:dGhpcy1pcy1hLXZlcnktbG9uZy1kZWZhdWx0LXNlY3JldC1rZXktZm9yLXVuaXNwYWNlLWNoYW5nZS1tZQ==}
+  access-token-validity-ms: ${JWT_VALIDITY_MS:86400000}   # 24h
+
+# Google Drive 백업 설정 (Part C - 외부 서비스 연동)
+google:
+  drive:
+    enabled: ${GOOGLE_DRIVE_ENABLED:false}
+    # 서비스 계정 JSON 파일 경로. Docker에서는 외부 config/ 폴더를 마운트.
+    credentials-path: ${GOOGLE_CREDENTIALS_PATH:config/google-credentials.json}
+    # 백업 파일을 업로드할 드라이브 폴더 ID (선택)
+    folder-id: ${GOOGLE_DRIVE_FOLDER_ID:}
+    application-name: UniSpace-Backup
+
+# 관리자 초기 계정 (DataInitializer 가 없을 때만 생성)
+unispace:
+  admin:
+    username: ${ADMIN_USERNAME:admin}
+    password: ${ADMIN_PASSWORD:admin1234}
+    name: ${ADMIN_NAME:관리자}
+
+# Actuator / Prometheus (Part C - 서버 모니터링)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    tags:
+      application: unispace
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+# Swagger UI (Part A/C - API 문서화)
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+
+server:
+  port: ${SERVER_PORT:8080}

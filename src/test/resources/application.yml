@@ -1,0 +1,29 @@
+# 테스트 / CI 환경: 외부 MySQL 없이 H2 인메모리로 컨텍스트 로드 검증
+spring:
+  datasource:
+    url: jdbc:h2:mem:unispace_test;MODE=MySQL;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=10000
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+jwt:
+  secret: dGhpcy1pcy1hLXZlcnktbG9uZy1kZWZhdWx0LXNlY3JldC1rZXktZm9yLXVuaXNwYWNlLWNoYW5nZS1tZQ==
+  access-token-validity-ms: 86400000
+
+google:
+  drive:
+    enabled: false
+
+unispace:
+  admin:
+    username: admin
+    password: admin1234
+    name: 관리자
