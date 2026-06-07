@@ -50,6 +50,8 @@ class ReservationConcurrencyTest {
     @BeforeEach
     void setUp() {
         reservationRepository.deleteAll();
+        userRepository.deleteAll();
+        roomRepository.deleteAll();
 
         Room room = roomRepository.save(Room.builder()
                 .name("동시성 테스트룸")
