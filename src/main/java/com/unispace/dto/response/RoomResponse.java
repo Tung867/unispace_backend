@@ -10,6 +10,8 @@ public record RoomResponse(
         Integer capacity,
         String description,
         boolean active,
+        String building,
+        String roomType,
         List<FacilityResponse> facilities
 ) {
     public static RoomResponse from(Room r) {
@@ -18,6 +20,9 @@ public record RoomResponse(
                 .sorted((a, b) -> a.name().compareTo(b.name()))
                 .toList();
         return new RoomResponse(r.getId(), r.getName(), r.getLocation(),
-                r.getCapacity(), r.getDescription(), r.isActive(), fac);
+                r.getCapacity(), r.getDescription(), r.isActive(),
+                r.getBuilding(),
+                r.getRoomType() != null ? r.getRoomType().name() : null,
+                fac);
     }
 }

@@ -13,7 +13,9 @@ import com.unispace.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -119,9 +121,25 @@ public class ReservationService {
         return reservation;
     }
 
+    private static final LocalTime OPEN_TIME  = LocalTime.of(9, 0);
+    private static final LocalTime CLOSE_TIME = LocalTime.of(21, 0);
+    private static final long MAX_DURATION_HOURS = 2;
+
     private void validateTimeRange(LocalDateTime start, LocalDateTime end) {
         if (start == null || end == null || !end.isAfter(start) || start.isBefore(LocalDateTime.now().minusMinutes(1))) {
             throw new BusinessException(ErrorCode.INVALID_TIME_RANGE);
+        }
+        LocalTime startTime = start.toLocalTime();
+        LocalTime endTime = end.toLocalTime();
+        if (startTime.isBefore(OPEN_TIME) || startTime.isAfter(CLOSE_TIME)) {
+            throw new BusinessException(ErrorCode.OUTSIDE_OPERATING_HOURS);
+        }
+        if (endTime.isBefore(OPEN_TIME) || endTime.isAfter(CLOSE_TIME)) {
+            throw new BusinessException(ErrorCode.OUTSIDE_OPERATING_HOURS);
+        }
+        long minutes = Duration.between(start, end).toMinutes();
+        if (minutes > MAX_DURATION_HOURS * 60) {
+            throw new BusinessException(ErrorCode.EXCEEDS_MAX_DURATION);
         }
     }
 }

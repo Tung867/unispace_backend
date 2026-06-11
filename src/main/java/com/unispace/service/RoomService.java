@@ -74,6 +74,8 @@ public class RoomService {
                 .capacity(req.capacity())
                 .description(req.description())
                 .active(req.active() == null || req.active())
+                .building(req.building())
+                .roomType(req.roomType())
                 .facilities(resolveFacilities(req.facilityIds()))
                 .build();
         return RoomResponse.from(roomRepository.save(room));
@@ -87,6 +89,8 @@ public class RoomService {
         if (req.capacity() != null) room.setCapacity(req.capacity());
         if (req.description() != null) room.setDescription(req.description());
         if (req.active() != null) room.setActive(req.active());
+        if (req.building() != null) room.setBuilding(req.building());
+        if (req.roomType() != null) room.setRoomType(req.roomType());
         if (req.facilityIds() != null) room.setFacilities(resolveFacilities(req.facilityIds()));
         return RoomResponse.from(room);
     }

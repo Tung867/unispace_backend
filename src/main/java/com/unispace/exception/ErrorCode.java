@@ -23,6 +23,8 @@ public enum ErrorCode {
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, "예약을 찾을 수 없습니다."),
     RESERVATION_CONFLICT(HttpStatus.CONFLICT, "해당 시간대에 이미 예약이 존재합니다."),
     INVALID_TIME_RANGE(HttpStatus.BAD_REQUEST, "예약 시간이 올바르지 않습니다."),
+    OUTSIDE_OPERATING_HOURS(HttpStatus.BAD_REQUEST, "예약 가능 시간은 오전 9시 ~ 오후 9시입니다."),
+    EXCEEDS_MAX_DURATION(HttpStatus.BAD_REQUEST, "1회 최대 예약 시간은 2시간입니다."),
     RESERVATION_NOT_OWNED(HttpStatus.FORBIDDEN, "본인의 예약만 처리할 수 있습니다."),
     ALREADY_RETURNED(HttpStatus.BAD_REQUEST, "이미 반납/취소된 예약입니다.");
 

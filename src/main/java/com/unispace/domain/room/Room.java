@@ -31,9 +31,23 @@ public class Room {
     @Column(length = 500)
     private String description;
 
+    /** 건물명 (예: 공학관, 도서관) */
+    @Column(length = 100)
+    private String building;
+
+    /** 공간 유형 */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "room_type", length = 50)
+    private RoomType roomType;
+
     /** 예약 가능 여부 (Admin 이 비활성화 가능) */
     @Column(nullable = false)
     private boolean active;
+
+    public enum RoomType {
+        MEETING_ROOM,
+        INDIVIDUAL_SEAT
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
