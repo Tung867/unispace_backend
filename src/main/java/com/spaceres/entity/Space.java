@@ -43,6 +43,15 @@ public class Space {
     @Column(length = 500)
     private String facilities;
 
+    // 건물 ID (예: engineering, library, student-union 등)
+    @Column(length = 100)
+    private String building;
+
+    // 공간 유형 (소형 회의실 / 개인 좌석)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "space_type", length = 50)
+    private SpaceType spaceType;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
@@ -68,5 +77,10 @@ public class Space {
     public enum SpaceStatus {
         AVAILABLE,   // 사용 가능
         UNAVAILABLE  // 사용 불가 (점검 등)
+    }
+
+    public enum SpaceType {
+        MEETING_ROOM,     // 소형 회의실
+        INDIVIDUAL_SEAT   // 개인 좌석
     }
 }

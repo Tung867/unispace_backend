@@ -16,6 +16,8 @@ public class SpaceResponse {
     private String location;
     private String facilities;
     private String status;
+    private String building;
+    private String spaceType;
     private LocalDateTime createdAt;
 
     public static SpaceResponse from(Space s) {
@@ -27,6 +29,8 @@ public class SpaceResponse {
                 .location(s.getLocation())
                 .facilities(s.getFacilities())
                 .status(s.getStatus().name())
+                .building(s.getBuilding())
+                .spaceType(s.getSpaceType() != null ? s.getSpaceType().name() : null)
                 .createdAt(s.getCreatedAt())
                 .build();
     }

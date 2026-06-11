@@ -15,7 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -131,12 +133,31 @@ public class ReservationService {
     }
 
     // ── 시간 유효성 검사 ──────────────────────────────────
+    private static final LocalTime OPEN_TIME  = LocalTime.of(9, 0);   // 오전 9시
+    private static final LocalTime CLOSE_TIME = LocalTime.of(21, 0);  // 오후 9시
+    private static final long MAX_DURATION_HOURS = 2;                 // 최대 2시간
+
     private void validateTime(LocalDateTime start, LocalDateTime end) {
+
+        // 1. 종료 시간이 시작 시간 이후인지 확인
         if (!end.isAfter(start)) {
             throw new BusinessException(ErrorCode.INVALID_TIME_RANGE);
         }
-        // 최대 예약 시간: 8시간
-        if (end.isAfter(start.plusHours(8))) {
+
+        // 2. 운영 시간 확인: 시작 시간 09:00 이상, 종료 시간 21:00 이하
+        LocalTime startTime = start.toLocalTime();
+        LocalTime endTime   = end.toLocalTime();
+
+        if (startTime.isBefore(OPEN_TIME) || startTime.isAfter(CLOSE_TIME)) {
+            throw new BusinessException(ErrorCode.OUTSIDE_OPERATING_HOURS);
+        }
+        if (endTime.isBefore(OPEN_TIME) || endTime.isAfter(CLOSE_TIME)) {
+            throw new BusinessException(ErrorCode.OUTSIDE_OPERATING_HOURS);
+        }
+
+        // 3. 최대 예약 시간 확인: 2시간 초과 불가
+        long minutes = Duration.between(start, end).toMinutes();
+        if (minutes > MAX_DURATION_HOURS * 60) {
             throw new BusinessException(ErrorCode.EXCEEDS_MAX_DURATION);
         }
     }

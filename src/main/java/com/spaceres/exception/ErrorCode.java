@@ -21,7 +21,8 @@ public enum ErrorCode {
     RESERVATION_NOT_FOUND(404, "예약을 찾을 수 없습니다."),
     RESERVATION_CONFLICT(409, "해당 시간대에 이미 예약이 있습니다."),
     INVALID_TIME_RANGE(400, "종료 시간은 시작 시간 이후여야 합니다."),
-    EXCEEDS_MAX_DURATION(400, "예약은 최대 8시간까지 가능합니다."),
+    EXCEEDS_MAX_DURATION(400, "1회 최대 예약 시간은 2시간입니다."),
+    OUTSIDE_OPERATING_HOURS(400, "예약 가능 시간은 오전 9시 ~ 오후 9시입니다."),
     ALREADY_CANCELLED(400, "이미 취소된 예약입니다."),
     FORBIDDEN_ACCESS(403, "본인의 예약만 취소할 수 있습니다."),
 

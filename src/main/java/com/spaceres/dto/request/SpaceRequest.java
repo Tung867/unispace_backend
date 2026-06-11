@@ -25,4 +25,9 @@ public class SpaceRequest {
 
     @Size(max = 500)
     private String facilities;
+
+    @Size(max = 100)
+    private String building;
+
+    private com.spaceres.entity.Space.SpaceType spaceType;
 }

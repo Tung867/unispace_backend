@@ -55,6 +55,8 @@ public class SpaceService {
                 .capacity(request.getCapacity())
                 .location(request.getLocation())
                 .facilities(request.getFacilities())
+                .building(request.getBuilding())
+                .spaceType(request.getSpaceType())
                 .status(Space.SpaceStatus.AVAILABLE)
                 .build();
 
@@ -74,6 +76,8 @@ public class SpaceService {
         space.setCapacity(request.getCapacity());
         space.setLocation(request.getLocation());
         space.setFacilities(request.getFacilities());
+        space.setBuilding(request.getBuilding());
+        space.setSpaceType(request.getSpaceType());
 
         return SpaceResponse.from(space);
     }
