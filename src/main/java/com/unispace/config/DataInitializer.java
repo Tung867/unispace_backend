@@ -62,29 +62,40 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         if (roomRepository.count() == 0) {
-            Facility monitor = facilityRepository.save(Facility.builder().name("모니터").build());
-            Facility beam = facilityRepository.save(Facility.builder().name("빔 프로젝터").build());
+            Facility monitor    = facilityRepository.save(Facility.builder().name("모니터").build());
+            Facility beam       = facilityRepository.save(Facility.builder().name("빔 프로젝터").build());
             Facility whiteboard = facilityRepository.save(Facility.builder().name("화이트보드").build());
 
-            roomRepository.save(Room.builder()
-                    .name("IT 2호관 독서실")
-                    .location("오도 IT 2호관 3층")
-                    .capacity(4)
-                    .description("개인 학습용 독서실 좌석")
-                    .active(true)
-                    .facilities(Set.of(monitor))
-                    .build());
+            // 공학관 (engineering) — 이름에 "공학" 포함
+            saveRoom("공학관 세미나실 A", "공학관 401호", 8, "팀 미팅·세미나용 회의실", Set.of(beam, whiteboard));
+            saveRoom("공학관 개인 좌석",  "공학관 IT 2호관 3층", 1, "집중 학습용 개인 좌석", Set.of(monitor));
 
-            roomRepository.save(Room.builder()
-                    .name("그룹 스터디룸 A")
-                    .location("복지관 2층")
-                    .capacity(6)
-                    .description("팀 프로젝트 회의용 룸")
-                    .active(true)
-                    .facilities(Set.of(monitor, beam, whiteboard))
-                    .build());
+            // 도서관 (library) — 이름에 "도서관" 포함
+            saveRoom("도서관 그룹 스터디룸", "중앙도서관 5층", 6, "그룹 스터디 전용 룸", Set.of(monitor, whiteboard));
+            saveRoom("도서관 개인 열람석",   "중앙도서관 3층", 1, "조용한 집중 학습 좌석", Set.of(monitor));
 
-            log.info("[Init] 데모용 공간/시설 생성 완료");
+            // 학생회관 (student-union) — 이름에 "학생" 포함
+            saveRoom("학생회관 동아리 회의실", "학생회관 2층", 10, "동아리·소모임 회의 공간", Set.of(beam));
+            saveRoom("학생회관 개인 부스",     "학생회관 1층", 1, "1인 집중 부스", Set.of(monitor));
+
+            // 인문관 (liberal-arts) — 이름에 "인문" 포함
+            saveRoom("인문관 토론실", "인문관 305호", 12, "세미나·토론용 강의실", Set.of(beam));
+
+            // 자연과학관 (science) — 이름에 "과학" 포함
+            saveRoom("자연과학관 집중 좌석", "자연과학관 2층", 1, "개인 집중 학습 좌석", Set.of(monitor));
+
+            log.info("[Init] 데모용 공간/시설 생성 완료 (총 {}개)", roomRepository.count());
         }
+    }
+
+    private void saveRoom(String name, String location, int capacity, String description, Set<Facility> facilities) {
+        roomRepository.save(Room.builder()
+                .name(name)
+                .location(location)
+                .capacity(capacity)
+                .description(description)
+                .active(true)
+                .facilities(facilities)
+                .build());
     }
 }
