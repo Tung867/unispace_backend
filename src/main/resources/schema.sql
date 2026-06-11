@@ -137,10 +137,10 @@ INSERT INTO facilities (name) VALUES ('화이트보드');
 
 -- 공간
 INSERT INTO rooms (name, location, capacity, description, building, room_type, active, created_at)
-VALUES ('IT 2호관 독서실', '오도 IT 2호관 3층', 4, '개인 학습용 독서실 좌석', NULL, 'INDIVIDUAL_SEAT', b'1', NOW(6));
+VALUES ('IT 2호관 독서실', '오도 IT 2호관 3층', 4, '개인 학습용 독서실 좌석', NULL, 'INDIVIDUAL_SEAT', TRUE, NOW(6));
 
 INSERT INTO rooms (name, location, capacity, description, building, room_type, active, created_at)
-VALUES ('그룹 스터디룸 A', '복지관 2층', 6, '팀 프로젝트 회의용 룸', NULL, 'MEETING_ROOM', b'1', NOW(6));
+VALUES ('그룹 스터디룸 A', '복지관 2층', 6, '팀 프로젝트 회의용 룸', NULL, 'MEETING_ROOM', TRUE, NOW(6));
 
 -- 공간-시설 매핑
 --   1번 room (IT 2호관 독서실) ← 모니터
